@@ -23,3 +23,10 @@ Route::controllers([
 
 //Route::get('calendar', 'CalendarController@index');
 Route::resource('calendar','CalendarController');
+
+
+Route::resource('gcalendar', 'gCalendarController');
+Route::get('oauth', ['as' => 'oauthCallback', 'uses' => 'gCalendarController@oauth']);
+
+
+//Route::post('/guardar', array('as'=>'guardar','uses'=>'gCalendarController@store'));

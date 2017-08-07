@@ -1,10 +1,51 @@
 @extends('app')
 
+<!--TABLA DATOS-->
+{{--
+  <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                          <tr>
+
+                   <th>Actividad</th>
+                   <th>Inicio</th>
+                   <th>Fin</th>
+                   <th>Fecha</th>
+
+                          </tr>
+                          </thead>
+                 <tbody>
+                      @foreach($results as $result)
+                  <tr>
+                   <td>{!! $result->summary !!}</td>
+
+                        @if (empty($result->start->dateTime))
+                   <td>{!!$result->start->date!!}</td>
+                   @endif
+
+                        @if (empty($result->start->date))
+                   <td>{!!$result->start->dateTime!!}</td>
+                   @endif
+
+                   <td>{!!$result->end->date!!}</td>
+                   <td>{!! $result->dateTime !!}</td>
+
+
+
+                  </tr>
+                 @endforeach
+                </tbody>
+}
+}
+</table>
+--}}
+
 @section('main-content')
  <section class="content">
 	   <div class="row">
         <div class="col-md-3">
-
+<div>
+ <a href="{{ route('gcalendar.create')}}" class="btn btn-warning">CREAR <span class="glyphicon glyphicon-tower"></span></a>
+</div>
 
         <div id="eventContent" class="box-body" visibility: hidden>
               <div class="alert alert-danger alert-dismissible">
@@ -15,7 +56,7 @@
               </div>
 
 
-      
+
 
 <div id="OnCalendar" class="box box-solid" visibility: hidden>
             <div class="box-header with-border">
@@ -26,21 +67,18 @@
             <!-- /.box-header -->
             <div class="box-body">
               <ul>
-                <li>Lorem ipsum dolor sit amet</li>
-                <li>Consectetur adipiscing elit</li>
-                <li>Integer molestie lorem at massa</li>
-                <li>Facilisis in pretium nisl aliquet</li>
-                <li>Nulla volutpat aliquam velit
+                <li>TEXTO</li>
+
               </ul>
             </div>
             <!-- /.box-body -->
           </div>
-        
+
 
 
 <div class="box box-solid" >
             <div class="box-header with-border">
-              <h4 class="box-title">Eventos</h4>
+              <h4 class="box-title">Planificacion</h4>
             </div>
             <div class="box-body">
               <!-- the events -->
@@ -112,8 +150,11 @@
           <!-- /. box -->
         </div>
         <!-- /.col -->
+
       </div>
       <!-- /.row -->
+
+
 </section>
 
 @endsection
@@ -122,6 +163,8 @@
 
 
 <script>
+
+
   $(function () {
 
     /* initialize the external events
@@ -170,7 +213,26 @@
         week: 'Semana',
         day: 'Dia'
       },
-    //Eventos de la BD
+
+//events : '/myfeed.php?start=2013-12-01&end=2014-01-12&_=1386054751381',
+
+//googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
+
+      // US Holidays
+      //events: {'en.usa#holidaygroup.v.calendar.google.com'},
+
+      //Eventos de Google Calendar
+     // googleCalendarApiKey:'AIzaSyB_QJT_Hx861SEfa--NEef9kCTxWdJMj78',
+     //   events:{
+
+       //  googleCalendarId:'calendarior9 group.v.calendar.google.com',
+      //   googleCalendarId:'google-api@calendarior9.iam.gserviceaccount.com',
+            {{--googleCalendarId: 'abcd1234@group.calendar.google.com',--}}
+            //className: 'gcal-event' // an option!
+     //  },
+
+ //Eventos de la BD
+{{--
       events : [
           @foreach($tasks as $task)
             {
@@ -184,6 +246,52 @@
             },
           @endforeach
             ],
+
+             //Eventos de googleclendar
+--}}
+
+//date('Y-m-d', strtotime($userProfileData->start_date));
+//alert(date('Y-m-d',strtotime('{!$result->update!!}')));
+
+
+
+    events : [
+          @foreach($results as $result)
+            {
+              id: '{{$result->id}}',
+              title : '{{ $result->summary }}',
+            @if (empty($result->start->dateTime))
+              start:'{!!$result->start->date!!}',
+                   @endif
+
+            @if (empty($result->start->date))
+               start:'{!!$result->start->dateTime!!}',
+                   @endif
+          end: '{{$result->end->date}}',
+
+//. date('l dS \o\f F Y h:i:s A', $timestamp)
+
+            //  start:date('Y-m-d',{!$result->update!!}),
+            //  start: '2017-07-25',
+              backgroundColor:'#00a65a',
+              borderColor:'#00a65a'
+            },
+          @endforeach
+            ],
+
+            //  start:'{$result->update}}',
+             // end: '{$result->created}}',
+
+
+          // $area = json_decode($results, true);
+
+            //foreach($area['area'] as $i => $v)
+            //{
+              //  echo $v['area'].'<br/>';
+            //}
+
+
+            //events : '$results',
 
 /*Seccion de Eventos editable y arastables*/
       editable: true,
@@ -226,18 +334,62 @@
            },
 /*Click Sobre evento y arrastrar*/
     eventDrop: function(event, delta){ // event drag and drop
-      alert('Tomamo y Movemos');
-      
-              // $.ajax({
-               //    url: 'index.php',
-                //   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
-                //   type: "POST",
+ alert(event.title + 'Se Mueve' + delta + ' days\n');
+
+// document.location.href="{! route('gcalendar.update','$foo'); !!}";
+//$.ajax({
+  // url: "/gcalendar/create",
+//})}
+//alert(JSON.stringify(event, null, 4));
+//printObject(event);
+//alert(event);
+
+//console.log(event);
+    {{--
+        $.ajax({
+          type: "POST",
+
+          url: 'gcalendar', //action="{route('gcalendar.store')}}"
+          //data: 'action=update&title='+event.title+'&start_date='+moment(event.start).format()+'&end_date='+moment(event.end).format()+'&id='+event.id ,
+
+       data: {
+        _token: '0J1mR4h3ct2bdlD4SeOfEX4f6aQ7Bee3Jjnr04zd',
+         // _token: $('meta[name="_token"]').attr('content'),
+        //  id: event.id,
+          title: event.title,
+          description: event.title,
+          start_date: moment(event.start).format(),
+          end_date: moment(event.end).format()
+        }
+
+
+ //success: function () {alert("Se ha realizado el POST con exito ");}
+
                 //   success: function(json) {
                    //alert(json);
                 //   }
-              // });
-           },
+        });
+ --}}
+
+       // document.location.href="{! route('gcalendar')!!}";
+//document.location.href="gcalendar";
+        /*
+        $.ajax({
+        type: "POST",
+        route: "gcalendar.create",
+        data: {
+          id: event.id,
+          title: event.id,
+          start_date: event.start,
+          end_date: event.end
+        },
+        success: function () {alert("Se ha realizado el POST con exito ");}
+      });
+*/
+
+       },
 {{--
+
     eventRender: function (event, element) {
         element.attr('href', 'javascript:void(0);');
         element.click(function() {
@@ -258,6 +410,7 @@
         // retrieve the dropped element's stored Event Object
         var originalEventObject = $(this).data('eventObject');
 
+
         // we need to copy it, so that multiple events don't have a reference to the same object
         var copiedEventObject = $.extend({}, originalEventObject);
 
@@ -275,7 +428,7 @@
         if ($('#drop-remove').is(':checked')) {
           // if so, remove the element from the "Draggable Events" list
           $(this).remove();
-           alert('Evento Agregado y se elimino');
+         alert('sdlkasdklsjdklasjdlskdjdlskdjkl');
         }
       }
 
@@ -283,7 +436,7 @@
 
 
     /*Seccon 2*/
-
+{{--
     $('#calendar').fullCalendar({
     eventClick: function(event, element) {
 
@@ -299,7 +452,7 @@
         alert('a day has been clicked!');
     }
 });
-
+--}}
     /* ADDING EVENTS */
     var currColor = "#3c8dbc"; //Red by default
     //Color chooser button

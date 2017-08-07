@@ -21,13 +21,15 @@
 
 
 <!-- AdminLTE App -->
-<script src="../dist/js/app.min.js"></script>
+<script src="{{ asset('/js/app.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+{{--<script src="../dist/js/demo.js"></script>--}}
 <!-- fullCalendar 2.2.5 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 
 <script src="{{ asset('/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
+<!--JS de google calendar-->
+<script src="{{ asset('/plugins/fullcalendar/gcal.min.js') }}"></script>
 
 <!-- Page specific script -->
 @section('script-blade')
