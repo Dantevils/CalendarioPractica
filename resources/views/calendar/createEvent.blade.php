@@ -1,4 +1,3 @@
-
 @extends('app')
 @section('main-content')
     <div class="container spark-screen">
@@ -43,8 +42,7 @@
         <button class="btn btn-primary" type="submit">
             Submit
         </button>
-    </form>
---}}
+ </form>--}}
 
                <!--Form de Dante-->                
                         {!! Form::open(['route'=>'gcalendar.store','method'=>'POST'])!!} <!--Ruta de almacenamiento del controlador a Store-->

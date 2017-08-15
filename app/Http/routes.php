@@ -30,3 +30,15 @@ Route::get('oauth', ['as' => 'oauthCallback', 'uses' => 'gCalendarController@oau
 
 
 //Route::post('/guardar', array('as'=>'guardar','uses'=>'gCalendarController@store'));
+
+Route::post('gcalendar/sstore','gCalendarController@store');
+Route::post('gcalendar/uupdate','gCalendarController@update');
+
+Route::post('gcalendar/ddestroy','gCalendarController@destroy');
+
+//Route::get('gcalendar/{id}/destroy',['uses'=>'gCalendarController@destroy','as'=>'gCalendarController.destroy']);
+
+Route::get('gcalendar/new2',['uses'=>'gCalendarController@NewCalendar','as'=>'gCalendarController@NewCalendar']);
+Route::get('gcalendar/new','gCalendarController@show');
+
+Route::resource('Ordenes','OrdenesTabrajoController');
