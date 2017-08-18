@@ -4,9 +4,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Actividad;
 
-class OrdenesTabrajoController extends Controller {
+class oCalendarController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,8 +15,6 @@ class OrdenesTabrajoController extends Controller {
 	public function index()
 	{
 		//
-		$actividades = Actividad::all();
-		return view('actividades.index',compact('actividades'));
 	}
 
 	/**
@@ -28,7 +25,6 @@ class OrdenesTabrajoController extends Controller {
 	public function create()
 	{
 		//
-		return view('actividades.create');
 	}
 
 	/**
@@ -39,7 +35,6 @@ class OrdenesTabrajoController extends Controller {
 	public function store()
 	{
 		//
-		dd('Rute:: OrdenesTabrajoController->Store');
 	}
 
 	/**

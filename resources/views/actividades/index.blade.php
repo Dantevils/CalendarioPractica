@@ -8,7 +8,7 @@
 					<div class="panel-heading">Ordenes de Trabajo</div>
 						<!--<div class="panel-body">-->
 						<!--Boton Crear-->
-						 <a href="{{ route('Ordenes.create')}}" class="btn btn-warning"> + <span></span></a>
+						 <a href="{{ route('ordenes.create')}}" class="btn btn-warning"> + <span></span></a>
 
 							<div class="box-body">
 								<table id="example1" class="table table-bordered table-striped">

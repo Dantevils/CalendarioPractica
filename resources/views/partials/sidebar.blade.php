@@ -11,7 +11,7 @@
             <li class="header">Modulo Planificacion</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="{{ url('home') }}"><i class='fa fa-home'></i> <span>Home</span></a></li>
-            <li><a href="{{ route('Ordenes.index')}}"><i class='fa fa-edit'></i> <span>Ordenes de trabajo</span></a></li>
+            <li><a href="{{ route('ordenes.index')}}"><i class='fa fa-edit'></i> <span>Ordenes de trabajo</span></a></li>
             <li><a href="/gcalendar"><i class='fa fa-calendar'></i> <span>Agenda</span></a></li>
         </ul><!-- /.sidebar-menu -->
     </section>
