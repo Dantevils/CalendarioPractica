@@ -62,6 +62,12 @@
                             {!! Form::label('estacion', 'Estacion ') !!}
                             {!! Form::select('estacion', array('Colon','Cauquenes')) !!}
                         </div>
+                    <!--Folio-->
+                        <div class="form-group col-sm-3">
+                        
+                            {{-- Form::label('folio', 'Folio ') --}}
+                            {!! Form::text('folio',null,['class'=> 'form-control col-sm-2','required','placeholder'=>'Codigo Folio'])!!}
+                        </div>
                     <!--Estado-->
                          <div class="form-group col-sm-8">
                             {!! Form::label('estado', 'Estado ') !!}
@@ -94,11 +100,15 @@
                     <!--Mantencion Periodica-->
                 <div class="panel box box-primary" id="boxbox">
                     <div class="box-header with-border">
+                    <div class="pull-right box-tools">
+                  <button id="delete" type="button" class="btn btn-danger btn-sm pull-right" data-toggle="tooltip" style="margin-right: 5px;">
+                  <i class="fa fa-times"></i></button>
                         <ul class="nav nav-tabs pull-right">
                             <li class="active"><a href="#tab_1" data-toggle="tab">Principal</a></li>
                             <li><a href="#tab_2" data-toggle="tab">Diagnostico</a></li>
                             <li><a href="#tab_3" data-toggle="tab">Detalle</a></li>
                         </ul>
+                     </div>
                         <h4 class="box-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#Mantencion">Mantencion MP</a> 
                         </h4>
@@ -159,11 +169,17 @@
                     <!--Calibracion-->
                     <div class="panel box box-primary">
                     <div class="box-header with-border">
+                    
+                       <div class="pull-right box-tools">
+                  <button id="delete" type="button" class="btn btn-danger btn-sm pull-right" data-toggle="tooltip" style="margin-right: 5px;">
+                  <i class="fa fa-times"></i></button>
                         <ul class="nav nav-tabs pull-right">
                             <li class="active"><a href="#tab_1_c" data-toggle="tab">Principal</a></li>
                             <li><a href="#tab_2_c" data-toggle="tab">Diagnostico</a></li>
                           
                         </ul>
+                       </div>
+                       
                         <h4 class="box-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#Calibracion">Calibracion</a> 
                         </h4>
@@ -210,21 +226,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-                                   
-
-
-
-
-
-
-            
-                
              <!--Siguiente Collapse-->
                 {{--
                 <div class="panel box box-success">
@@ -261,6 +262,14 @@
 @section('script-blade')
 <!--Añadir Mas Actividades a las Ordenes de trabajo-->
 <script>
+   $("#delete").click(function (e) {
+      e.preventDefault();
+      alert("Delete");
+      var parent = $(this).parent().get(0);
+      $(parent).remove();
+
+    });
+
     $("#BtnMantencion").click(function (e) {
       e.preventDefault();
 
@@ -353,10 +362,15 @@
   //$("panel box box-success").clone().append("#accordion");
   //$('#accordion').clone().appendTo('panel box box-success');
 
-  //$("").clone().appendTo("");
-var accord = $("#boxbox").clone();
-accord.addClass("box-title").attr("id","OTRO");
+  //$("#boxbox").clone().removeClass("box-title").appendTo("#accordion");
 
+  //$("").clone().appendTo("");
+ var cls = $("box-title").clone();
+ cls.find("#id").replaceWith('Otras');
+var accord = $("#boxbox").clone();
+//accord.find("box-title").replaceWith("");
+accord.removeClass("box-title");
+accord.addClass("box-title").replaceWith(cls);
 $("#accordion").append(accord);
 
 //  $("#boxbox").clone().appendTo("#accordion");
