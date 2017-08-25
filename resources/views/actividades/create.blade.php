@@ -7,10 +7,7 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                   <!-- <div class="panel-heading">Ordenes de trabajo</div>-->
                         <div class="panel-body">
-                            <!--Collapsible-->
-
       <div class="row">
         <div>
           <div class="box box-solid">
@@ -24,96 +21,90 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a id="BtnMantencion" href="#" onclick="return confirm('Añadir Mantencion')" >Mantencion</a></li>
-                    <li><a id="BtnVisita" href="#" onclick="return confirm('Añadir Visita')">Visita</a></li>
-                    <li><a id="BtnCalibracion" href="#" onclick="return confirm('Añadir Calibracion')">Calibracion</a></li>
-                    <li><a id="BtnOtra" href="#" onclick="return confirm('Añadir ')">Otra</a></li>
+                    <li><a id="BtnMantencion" onclick="return confirm('Añadir Mantencion')" >Mantencion</a></li>
+                    <li><a id="BtnVisita" onclick="return confirm('Añadir Visita')">Visita</a></li>
+                    <li><a id="BtnCalibracion" onclick="return confirm('Añadir Calibracion')">Calibracion</a></li>
+                    <li><a id="BtnOtra" onclick="return confirm('Añadir ')">Otra</a></li>
                   <!--Boton Para activiades Defecto-->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="box-group" id="accordion">
-                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                <div class="panel box box-primary">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#General">
-                        Información General 
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="General" class="panel-collapse collapse in">
+              </div>
                 <div class="box-body">
-                     
-                    <!--Informacion  General-->               
-                {!! Form::open(['route'=>'ordenes.store','method'=>'POST'])!!} <!--Ruta de almacenamiento-->
-                    <!--Operador-->
-                        <div class="form-group col-sm-8">
-                            {!! Form::label('operador', 'Operador ') !!}
-                            {!! Form::select('operador', array('Codelco El Teniente'))!!}
-                        </div>
-                    <!--Prioridad-->
-                        <div class="form-group col-sm-4">
-                            {!! Form::label('prioridad', 'Prioridad ') !!}
-                            {!! Form::select('prioridad',array('Baja','Normal','Alta')) !!}
-                        </div>
-                    <!--Estacion-->
-                        <div class="form-group col-sm-8">
-                            {!! Form::label('estacion', 'Estacion ') !!}
-                            {!! Form::select('estacion', array('Colon','Cauquenes')) !!}
-                        </div>
-                    <!--Folio-->
-                        <div class="form-group col-sm-3">
-                        
-                            {{-- Form::label('folio', 'Folio ') --}}
-                            {!! Form::text('folio',null,['class'=> 'form-control col-sm-2','required','placeholder'=>'Codigo Folio'])!!}
-                        </div>
-                    <!--Estado-->
-                         <div class="form-group col-sm-8">
-                            {!! Form::label('estado', 'Estado ') !!}
-                            {!! Form::select('estado',array('Sin agendar')) !!}
-                         </div>
-                    <!--Status-->
-                         <div class="form-group col-sm-8">
-                            {!! Form::label('status', 'Status ') !!}
-                            {!!Form::select('status',array('1','2','3'),['class' => 'select form-control', 'required'])!!} 
-                         </div>
-                    <!--Automatica: Reiteracion-->
-                         <div class="form-group col-sm-8">
-                            {!! Form::label('auto', 'Automatica ') !!}
-                            {!! Form::checkbox('auto','value') !!}
-                         </div> 
-
-                    <!--Fecha Maxima-->
-                        <div class="form-group col-sm-5">
-                        {!! Form::label('fecha_max', 'Fecha Maxima ') !!}
-                             <div class="input-group date col-sm-6">
-                             <div class="input-group-addon">
-                             <i class="fa fa-calendar"></i>
-                             </div>
-                        {!! Form::text('fecha_max',null,['class'=>'form-control','id'=>'datepicker','placeholder'=>'Fecha Maxima','required']) !!}
-                             </div>
-                        </div>
-                        </div>
-                  </div>
-                </div>
-                    <!--Mantencion Periodica-->
-                <div class="panel box box-primary" id="boxbox">
+                <div class="box-group" id="accordion">
+                  <!--Informacion General-->
+                  <div class="panel box box-primary">
                     <div class="box-header with-border">
-                    <div class="pull-right box-tools">
-                  <button id="delete" type="button" class="btn btn-danger btn-sm pull-right" data-toggle="tooltip" style="margin-right: 5px;">
-                  <i class="fa fa-times"></i></button>
-                        <ul class="nav nav-tabs pull-right">
+                      <h4 class="box-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#General">
+                          Información General 
+                        </a>
+                      </h4>
+                    </div>
+                      <div id="General" class="panel-collapse collapse in">
+                        <div class="box-body">             
+                          {!! Form::open(['route'=>'ordenes.store','method'=>'POST'])!!} <!--Ruta de almacenamiento-->
+                          <!--Operador-->
+                              <div class="form-group col-sm-8">
+                                  {!! Form::label('operador', 'Operador ') !!}
+                                  {!! Form::select('operador', array('Codelco El Teniente'))!!}
+                              </div>
+                          <!--Prioridad-->
+                              <div class="form-group col-sm-4">
+                                  {!! Form::label('prioridad', 'Prioridad ') !!}
+                                  {!! Form::select('prioridad',array('Baja','Normal','Alta')) !!}
+                              </div>
+                          <!--Estacion-->
+                              <div class="form-group col-sm-8">
+                                  {!! Form::label('estacion', 'Estacion ') !!}
+                                  {!! Form::select('estacion', array('Colon','Cauquenes')) !!}
+                              </div>
+                          <!--Folio-->
+                              <div class="form-group col-sm-3">
+                              
+                                  {{-- Form::label('folio', 'Folio ') --}}
+                                  {!! Form::text('folio',null,['class'=> 'form-control col-sm-2','required','placeholder'=>'Codigo Folio'])!!}
+                              </div>
+                          <!--Estado-->
+                              <div class="form-group col-sm-8">
+                                  {!! Form::label('estado', 'Estado ') !!}
+                                  {!! Form::select('estado',array('Sin agendar')) !!}
+                              </div>
+                          <!--Status-->
+                              <div class="form-group col-sm-8">
+                                  {!! Form::label('status', 'Status ') !!}
+                                  {!!Form::select('status',array('1','2','3'),['class' => 'select form-control', 'required'])!!} 
+                              </div>
+                          <!--Automatica: Reiteracion-->
+                              <div class="form-group col-sm-8">
+                                  {!! Form::label('auto', 'Automatica ') !!}
+                                  {!! Form::checkbox('auto','value') !!}
+                              </div>
+                          <!--Fecha Maxima-->
+                              <div class="form-group col-sm-5">
+                              {!! Form::label('fecha_max', 'Fecha Maxima ') !!}
+                                   <div class="input-group date col-sm-6">
+                                   <div class="input-group-addon">
+                                   <i class="fa fa-calendar"></i>
+                                   </div>
+                              {!! Form::text('fecha_max',null,['class'=>'form-control','id'=>'datepicker','placeholder'=>'Fecha Maxima','required']) !!}
+                                   </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+          <!--Mantencion Periodica-->
+                <div class="panel box box-primary" id="boxbox">
+                      <div class="box-header with-border">
+                      <button class="btn btn-danger btn-sm pull-right" type="button" data-toggle="tooltip" style="margin-right: 5px;">
+                      <i class="fa fa-times"></i></button>
+                      <h4 class="box-title" id="boxtitleid">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#Mantencion">Mantencion MP</a> 
+                      </h4>
+                      </div>
+                    <div id="Mantencion" class="panel-collapse collapse">
+                    <ul class="nav nav-tabs pull-right">
                             <li class="active"><a href="#tab_1" data-toggle="tab">Principal</a></li>
                             <li><a href="#tab_2" data-toggle="tab">Diagnostico</a></li>
                             <li><a href="#tab_3" data-toggle="tab">Detalle</a></li>
                         </ul>
-                     </div>
-                        <h4 class="box-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#Mantencion">Mantencion MP</a> 
-                        </h4>
-                    </div>
-                    <div id="Mantencion" class="panel-collapse collapse">
                         <div class="box-body">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1">
@@ -166,26 +157,28 @@
                         </div>
                     </div>
                 </div>
-                    <!--Calibracion-->
+
+
+            <!--Calibracion-->
                     <div class="panel box box-primary">
                     <div class="box-header with-border">
-                    
-                       <div class="pull-right box-tools">
-                  <button id="delete" type="button" class="btn btn-danger btn-sm pull-right" data-toggle="tooltip" style="margin-right: 5px;">
+                        <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#Calibracion">Calibracion</a> 
+                        </h4>
+<!--<div class="pull-right box-tools">-->
+                  <button class="btn btn-danger btn-sm pull-right" type="button" data-toggle="tooltip" style="margin-right: 5px;">
                   <i class="fa fa-times"></i></button>
+                        
+                      <!-- </div>-->
+                    </div>
+                    <div id="Calibracion" class="panel-collapse collapse">
                         <ul class="nav nav-tabs pull-right">
                             <li class="active"><a href="#tab_1_c" data-toggle="tab">Principal</a></li>
                             <li><a href="#tab_2_c" data-toggle="tab">Diagnostico</a></li>
                           
                         </ul>
-                       </div>
-                       
-                        <h4 class="box-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#Calibracion">Calibracion</a> 
-                        </h4>
-                    </div>
-                    <div id="Calibracion" class="panel-collapse collapse">
                         <div class="box-body">
+
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1_c">
                                   <!--Equipo-->
@@ -262,35 +255,16 @@
 @section('script-blade')
 <!--Añadir Mas Actividades a las Ordenes de trabajo-->
 <script>
-   $("#delete").click(function (e) {
-      e.preventDefault();
-      alert("Delete");
-      var parent = $(this).parent().get(0);
-      $(parent).remove();
-
+   $(".btn-danger").click(function (e) {
+      var parent = $(this).parent().parent().get(0);
+      parent.remove();
     });
 
     $("#BtnMantencion").click(function (e) {
       e.preventDefault();
-
-      val = 'Mantencion';
-      
-      var event = $("<div />");
-      var box_title = $('<a data-toggle="collapse" data-parent="#accordion" href="#'+val+'"></a>').fadeIn('slow');
-      var exd = $('<div><input type="text" class="field" name="dynamic[]" value="' + val + '" /></div>').fadeIn('slow');
-     
-      event.addClass("panel box box-success");//css({"background-color": currColor, "border-color": currColor, "color": "#fff"})
-      event.addClass("box-header with-border");
-      event.addClass("box-title").html(val).append(box_title);
-      //.css({"data-toggle": collapse "data-parent": #accordion "href" : val});
-    //event.addClass("panel-collapse collapse");
-    //event.addClass("box-body");
-      
-     
-       //$('#collapseThree').prepend(event); /*Agregamos al Panel*/
-       //$('#accordion').prepend(event); /*Agregamos al Panel*/
-      $('#accordion').append(event); /*Agregamos al Panel*/
-
+     var accord = $("#boxbox").clone();
+     $("#accordion").append(accord);
+    
     });
         $("#BtnVisita").click(function (e) {
       e.preventDefault();
@@ -347,30 +321,44 @@
      
       event.addClass("panel box box-success");//css({"background-color": currColor, "border-color": currColor, "color": "#fff"})
       event.addClass("box-header with-border");
-     // event.addClass("box-title").html(val).append(box_title);
+      // event.addClass("box-title").html(val).append(box_title);
       //.css({"data-toggle": collapse "data-parent": #accordion "href" : val});
-    //event.addClass("panel-collapse collapse");
-    //event.addClass("box-body");
+      //event.addClass("panel-collapse collapse");
+      //event.addClass("box-body");
       
-     
-       //$('#collapseThree').prepend(event); /*Agregamos al Panel*/
-       //$('#accordion').prepend(event); /*Agregamos al Panel*/
-  
-  //    $('#accordion').append(event); /*Agregamos al Panel*/
+   // endtime = $.fullCalendar.moment(end).format('h:mm');
+               // starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
+               // var mywhen = starttime + ' - ' + endtime;
+               // start = moment(start).format();
+               // end = moment(end).format();
+               // $('#createEventModal #startTime').val(start);
+               // $('#createEventModal #endTime').val(end);
+               // $('#createEventModal #when').text(mywhen);
+               // $('#createEventModal').modal('toggle');
+
+  //              $("#startTime").html(moment(event.start).format('MMM Do h:mm A'));
+    //        $("#endTime").html(moment(event.end).format('MMM Do h:mm A'));
+      //      $("#eventInfo").html(event.description);
+        //    $("#eventLink").attr('href', event.url);
+          ///  $("#eventContent").dialog({ modal: true, title: event.title, width:350});
 
 
-  //$("panel box box-success").clone().append("#accordion");
-  //$('#accordion').clone().appendTo('panel box box-success');
-
-  //$("#boxbox").clone().removeClass("box-title").appendTo("#accordion");
-
-  //$("").clone().appendTo("");
- var cls = $("box-title").clone();
- cls.find("#id").replaceWith('Otras');
+//$(this).parent().get(0);
+$(".box-title").attr('id',"Texto Nuevo");
+ //var cls = $("box-title").clone();
+ //cls.find(".id").replaceWith('Otras');
 var accord = $("#boxbox").clone();
+//accord.find(".box-title").attr(boxtitleid,"Texto Nuevo");
+//accord.find(".box-title").text("HOLA");
+accord.find(".box-title").prop("id","HOLA");
+accord.find(".box-title").prop("href","#HOLA");
+//accord.find("#boxtitleid").prop("HOLA");
+//accord.find(".box-title").attr("href",#HOLA);
+
 //accord.find("box-title").replaceWith("");
-accord.removeClass("box-title");
-accord.addClass("box-title").replaceWith(cls);
+//accord.removeClass("box-title");
+//accord.addClass("box-title").replaceWith(cls);
+
 $("#accordion").append(accord);
 
 //  $("#boxbox").clone().appendTo("#accordion");

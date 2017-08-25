@@ -36,10 +36,11 @@ class OrdenesTabrajoController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Request $request)
 	{
-		//
-		dd('Rute:: OrdenesTabrajoController->Store');
+	
+		$foo = $request->all();
+		dd($foo);
 	}
 
 	/**

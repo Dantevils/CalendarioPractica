@@ -39,6 +39,9 @@ Route::post('gcalendar/ddestroy','gCalendarController@destroy');
 //Route::get('gcalendar/{id}/destroy',['uses'=>'gCalendarController@destroy','as'=>'gCalendarController.destroy']);
 
 Route::get('gcalendar/new2',['uses'=>'gCalendarController@NewCalendar','as'=>'gCalendarController@NewCalendar']);
-//Route::get('gcalendar/new','gCalendarController@show'); USO para Crear y compartir calendarios
+
+Route::get('gcalendarsync', ['as' => 'Getgcalendar', 'uses' => 'gCalendarController@Getgcalendar']); /*Ruta de sincornizacion de google calendar*/
+Route::get('gcalendarasync',['as'=>'Asignacion_Google_Calendar','uses'=>'gCalendarController@Asignacion_Google_Calendar']);/*Asignacion de calendario*/
+
 
 Route::resource('ordenes','OrdenesTabrajoController');

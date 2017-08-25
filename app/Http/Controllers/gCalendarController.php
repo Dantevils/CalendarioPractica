@@ -11,6 +11,8 @@ use Google_Service_Calendar_EventDateTime;
 use Google_Service_Calendar_Calendar;
 use Google_Service_Calendar_CalendarListEntry;
 use App\Task;/*Modelo*/
+use App\Operador;
+use Laracasts\Flash\Flash;
 
 class gCalendarController extends Controller
 {
@@ -21,7 +23,7 @@ class gCalendarController extends Controller
         $client->setAuthConfig('client_secret.json');
         $client->addScope(Google_Service_Calendar::CALENDAR);
 
-        $guzzleClient = new \GuzzleHttp\Client(array('curl' => array(CURLOPT_SSL_VERIFYPEER => false)));
+        $guzzleClient = new \GuzzleHttp\Client(array('curl' => array(CURLOPT_SSL_VERIFYPEER => false))); //PHP 5.6
         $client->setHttpClient($guzzleClient);
         $this->client = $client;
     }
@@ -38,8 +40,14 @@ class gCalendarController extends Controller
               $this->client->setAccessToken($_SESSION['access_token']);
               $service = new Google_Service_Calendar($this->client);
 
-              $calendarId = 'primary'; /*Calendario Principal*/
-              $calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com'; /*Calendario Compartido*/
+              /*Seleccion de RUT Correspondiente al inicio de seccion*/
+              $gcalendar_id = Operador::find(1)->gcalendar_id;
+              if (!empty($gcalendar_id)) {
+                  $calendarId = $gcalendar_id;
+              }else{
+                $calendarId = 'primary'; /*Calendario Principal*/
+              }             
+            //  $calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com'; /*Calendario Compartido*/
               
               /*Edicion de parametros*/
               $optParams = array(
@@ -107,8 +115,13 @@ class gCalendarController extends Controller
       if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
               $this->client->setAccessToken($_SESSION['access_token']);
               $service = new Google_Service_Calendar($this->client);
+              $Operador = Operador::findOrFail(1);
+              if (!empty($Operador->gcalendar_id)) {
+              $calendarId = $Operador->gcalendar_id;
+              }else{
+              $calendarId = 'primary'; 
+              }
 
-              $calendarId = 'primary';
               $event = new Google_Service_Calendar_Event([
                   'summary' =>$request->title,
                   'description' => $request->description,
@@ -130,27 +143,46 @@ class gCalendarController extends Controller
           }
     }
 /*Creacion de calendario obteniendo ID de google calendar, *****Buscar la manera de dar permisos publicos*******/
-    public function Creacion_Google_Calendar(){
+    public function Getgcalendar(){
    
+          $Operador = Operador::findOrFail(1);
+            if (empty($Operador->gcalendar_id)) {
             session_start();
             $this->client->setAccessToken($_SESSION['access_token']);  
             $service = new Google_Service_Calendar($this->client);   
             /*Caracteristicas del calendario*/
             $calendar = new Google_Service_Calendar_Calendar();
-            $calendar->setSummary('R9Calendario');
+            $calendar->setSummary("R9Calendario");
             $calendar->setTimeZone('America/Santiago');
          
             $createdCalendar = $service->calendars->insert($calendar);
             $valid = $createdCalendar->getId(); /*Guardar DATABASE*/
-            dd($valid); /*Google ID de calendario*/
+           // dd($valid); /*Google ID de calendario*/
+            $Operador->gcalendar_id = $createdCalendar->getid();
+            $Operador->save();
+            Flash::success("Creacion de Google Calendar");
+            return redirect()->route('gcalendar.index');  
+            }
+            else{
+            Flash::success('Ya se encuentra Sincronizado con google calendar'); 
+            return redirect()->route('gcalendar.index');
+            }         
     }
 /*Integracion de con la persona que inicia seccion R9Calendario*/
     public function Asignacion_Google_Calendar(){
+          // $rule = new AclRule();
+          // $scope = new AclRuleScope();
+          // $scope->setType("default");
+          // $scope->setValue("");
+          //$rule->setScope($scope);
+          //  $rule->setRole("reader");
+          // $createdRule = $service->acl->insert($createdCalendar->id, $rule);
+
             session_start();
             $this->client->setAccessToken($_SESSION['access_token']);
             $service = new Google_Service_Calendar($this->client); 
             $calendarListEntry = new Google_Service_Calendar_CalendarListEntry(); 
-            $calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com';
+            $calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com';//example
             $calendarListEntry->setId($calendarId);
             $createdCalendarListEntry = $service->calendarList->insert($calendarListEntry);
 
@@ -221,9 +253,14 @@ class gCalendarController extends Controller
             // $endDateTime = Carbon::parse($request->start_date)->addMinutes($eventDuration)->3339String();
                 $endDateTime = Carbon::parse($request->start_date)->toIso8601String();
             }
+              $gcalendar_id = Operador::find(1)->gcalendar_id;
+             if (!empty($Operador->gcalendar_id)) {
+              $calendarId = $Operador->gcalendar_id;
+              }else{
+              $calendarId = 'primary'; 
+              }
 
-            // retrieve the event from the API.
-            $calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com'; //Example
+            //$calendarId = '1tag5q73jl88vle96547b0plu8@group.calendar.google.com'; //Example
             $event = $service->events->get($calendarId, $request->id);
             // $event = $service->events->get('primary', $eventId);
 
@@ -269,8 +306,15 @@ class gCalendarController extends Controller
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             $service = new Google_Service_Calendar($this->client);
+            //Delete
+             $gcalendar_id = Operador::find(1)->gcalendar_id;
+             if (!empty($Operador->gcalendar_id)) {
+              $calendarId = $Operador->gcalendar_id;
+              }else{
+              $calendarId = 'primary'; 
+              }
             $eventId = $request->id;
-            $service->events->delete('primary', $eventId);
+            $service->events->delete($calendarId, $eventId);
 
         } else {
             return redirect()->route('oauthCallback');

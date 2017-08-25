@@ -1,137 +1,122 @@
 @extends('app')
-
-<!--Tabla de datos Google Calendar JSON-->
+<!--Tabla de datos/analisis Google Calendar JSON-->
 {{--
-<table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-        <th>Zona Horaria</th>
-        <th>Nombre</th>
-        <th>Actividad</th>
-        <th>start->date/dateTime</th>
-        <th>end->date</th>
-        <th>dateTime</th>
-        <th>endTimeUnspecified</th>
-          </tr>
-        </thead>
-        <tbody>
-            @foreach($results as $result)
+    <table class="table table-bordered table-striped">
+            <thead>
               <tr>
-            <td>{!!$result->start->timeZone!!}</td>
-            <td>{!!$result->creator->displayName!!}</td>
-<td>
-            @foreach($result->attendees as $lala)
-<p>@:{!!$lala->email!!}</p>
-<p>NA:{!!$lala->displayName!!}</p>
-<p>OR:{!!$lala->organizer!!}</p>
-<p>RSP:{!!$lala->responseStatus!!}</p>
-<p>R/:{!!$lala->comment!!}</p>
-<p>-------------------------------</p>
-            @endforeach
-          
-</td>
-
-          
-          
-
-            <td>{!! $result->summary !!}</td>
-              @if (empty($result->start->dateTime))
-              <td>{!!$result->start->date!!}</td>
-              @endif
-              @if (empty($result->start->date))
-              <td>{!!$result->start->dateTime!!}</td>
-              @endif
-            <td>{!!$result->end->dateTime!!}</td>
-            <td>{!! $result->dateTime !!}</td>
-            <td>{!! $result->colorId !!}</td>
-              @if ($result->colorId == '11')
-              <td>ROJO</td>
-              @endif
-              @if ($result->colorId == '10')
-              <td>VERDE</td>
-              @endif
-              @if ($result->colorId == '9')
-              <td>AZUL</td>
-              @endif
+            <th>Zona Horaria</th>
+            <th>Nombre</th>
+            <th>Actividad</th>
+            <th>start->date/dateTime</th>
+            <th>end->date</th>
+            <th>dateTime</th>
+            <th>endTimeUnspecified</th>
               </tr>
-              @endforeach
-              </tr>
-        </tbody>
-</table>
-
+            </thead>
+            <tbody>
+                @foreach($results as $result)
+                  <tr>
+                <td>{!!$result->start->timeZone!!}</td>
+                <td>{!!$result->creator->displayName!!}</td>
+    <td>
+                @foreach($result->attendees as $lala)
+    <p>@:{!!$lala->email!!}</p>
+    <p>NA:{!!$lala->displayName!!}</p>
+    <p>OR:{!!$lala->organizer!!}</p>
+    <p>RSP:{!!$lala->responseStatus!!}</p>
+    <p>R/:{!!$lala->comment!!}</p>
+    <p>-------------------------------</p>
+                @endforeach
+              
+    </td>
+           <td>{!! $result->summary !!}</td>
+                  @if (empty($result->start->dateTime))
+                  <td>{!!$result->start->date!!}</td>
+                  @endif
+                  @if (empty($result->start->date))
+                  <td>{!!$result->start->dateTime!!}</td>
+                  @endif
+                <td>{!!$result->end->dateTime!!}</td>
+                <td>{!! $result->dateTime !!}</td>
+                <td>{!! $result->colorId !!}</td>
+                  @if ($result->colorId == '11')
+                  <td>ROJO</td>
+                  @endif
+                  @if ($result->colorId == '10')
+                  <td>VERDE</td>
+                  @endif
+                  @if ($result->colorId == '9')
+                  <td>AZUL</td>
+                  @endif
+                  </tr>
+                  @endforeach
+                  </tr>
+            </tbody>
+    </table>
 --}}
 @section('main-content')
+@include('flash::message')
  <section class="content">
 	   <div class="row">
         <div class="col-md-2">
-        
+         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">click</button>
+          <!-- Modal -->
+         <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="titulo">Descripcion de tu actividad</h4>
+              </div>
+              <div class="modal-body">
+              <!--<p id="identificador"></p>
+              <p id="titulo"></p>
+              <p id="description"></p>
+              <p id="fecha_inicio"></p>
+              <p id="fecha_fin"></p>-->
+              <!--
+              resize:none" rows="13" cols="20"
+              -->
+             {!! Form::open(['route'=>'gcalendar.store','method'=>'POST'])!!} <!--Ruta de almacenamiento del controlador a Store-->
+                            
+                            <div class="form-group col-sm-3">
+                                {!! Form::label('titulo', 'Tipo de Actividad') !!}
+                                {!! Form::textarea('titulo',null,array('id'=>'titulo' ,'rows'=>'1' ,'cols'=>'1' ,'class'=>'form-control' ))!!}
+                            </div>
+                             <div class="form-group col-sm-3">
+                                {!! Form::label('description', 'Description de Actividad') !!}
+                                {!! Form::textarea('description',null,array('id'=>'description' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
+                            </div>
 
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">click</button>
+                             <div class="form-group col-sm-4">
+                                {!! Form::label('start_date', 'Inicio Evento') !!}
+                                {!! Form::textarea('start_date',null,array('id'=>'fecha_inicio' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
+                            </div>
+                             <div class="form-group col-sm-4">
+                                {!! Form::label('end_date', 'Fin Evento') !!}
+                                {!! Form::textarea('end_date',null,array('id'=>'fecha_fin' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
+                            </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" id="titulo">Descripcion de tu actividad</h4>
-        </div>
-        <div class="modal-body">
-          <!--<p id="identificador"></p>
-          <p id="titulo"></p>
-          <p id="description"></p>
-          <p id="fecha_inicio"></p>
-          <p id="fecha_fin"></p>-->
+                            
+                            <div class="form-group">
 
-<!--
-resize:none" rows="13" cols="20"
--->
-         {!! Form::open(['route'=>'gcalendar.store','method'=>'POST'])!!} <!--Ruta de almacenamiento del controlador a Store-->
-                        
-                        <div class="form-group col-sm-3">
-                            {!! Form::label('titulo', 'Tipo de Actividad') !!}
-                            {!! Form::textarea('titulo',null,array('id'=>'titulo' ,'rows'=>'1' ,'cols'=>'1' ,'class'=>'form-control' ))!!}
-                        </div>
-                         <div class="form-group col-sm-3">
-                            {!! Form::label('description', 'Description de Actividad') !!}
-                            {!! Form::textarea('description',null,array('id'=>'description' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
-                        </div>
+                            {!! Form::submit('Guardar',['class'=>'btn btn-success']) !!}
+                            </div>
 
-                         <div class="form-group col-sm-4">
-                            {!! Form::label('start_date', 'Inicio Evento') !!}
-                            {!! Form::textarea('start_date',null,array('id'=>'fecha_inicio' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
-                        </div>
-                         <div class="form-group col-sm-4">
-                            {!! Form::label('end_date', 'Fin Evento') !!}
-                            {!! Form::textarea('end_date',null,array('id'=>'fecha_fin' ,'rows'=>'1' ,'cols'=>'1','class'=>'form-control' )) !!}
-                        </div>
+                            {!! Form::close() !!}
 
-                        
-                        <div class="form-group">
-
-                        {!! Form::submit('Guardar',['class'=>'btn btn-success']) !!}
-                        </div>
-
-                        {!! Form::close() !!}
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  
-
-
-
- <!--Ruta de Creacion-->
-            <div>
-             <a href="{{ route('gcalendar.create')}}" class="btn btn-warning">CREAR <span class="glyphicon glyphicon-tower"></span></a>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              </div>
+              </div>
             </div>
+          </div>
+            <!--Ruta de Creacion-->
+          <div>
+             <a href="{{ route('gcalendar.create')}}" class="btn btn-warning">CREAR <span class="glyphicon glyphicon-tower"></span></a>
+          </div>
 
           <!--Informacion Desplegable-->
             <div id="OnCalendar" class="box box-solid" visibility: hidden>
@@ -146,44 +131,64 @@ resize:none" rows="13" cols="20"
                   </div>        
             </div>
 
-            <!--Barra de eventos DashBorad-->
+            <!--Barra de eventos DashBorad::  Aqui devemos poner un tipo de filtro --> 
             <div class="box box-solid" >
-              <div class="box-header with-border">
-                <h4 class="box-title">Planificacion</h4>
-              </div>
-              <div class="box-body">
-                <div id="external-events">
-                <!--Ejemplos Basicos-->
-                  <div class="external-event bg-green">Calibracion</div>
-                  <div class="external-event bg-blue">Mantencion</div>
-                  <div class="external-event bg-red">Reparacion</div>
+                <div class="box-header with-border">
+                  <h4 class="box-title">Planificacion</h4>
+                  <div>
+                     {!! Form::open(['route'=>'home','method'=>'POST'])!!} <!--Ruta de almacenamiento del controlador a Store-->
+                          
+                          <div class="form-group">
+                             {!! Form::text('titulo',null,array('id'=>'titulo','class'=>'form-control', 'placeholder'=>'Equipo' ))!!}
+                          </div>
+                           <div class="form-group">
+                             {!! Form::text('description',null,array('id'=>'description','class'=>'form-control', 'placeholder'=>'Estado' )) !!}
+                          </div>
+
+                           <div class="form-group">
+                            {!! Form::text('start_date',null,array('id'=>'fecha_inicio','class'=>'form-control' ,'placeholder'=>'Actualizadas')) !!}
+                          </div>
+                                                
+                          <div class="form-group">
+
+                          {!! Form::submit('Aplicar Filtro',['class'=>'btn btn-success']) !!}
+                          </div>
+
+                          {!! Form::close() !!}
+                    </div>
                 </div>
-              </div>
+                <div class="box-body">
+                  <div id="external-events">
+                  <!--Ejemplos Basicos-->
+                    <div class="external-event bg-green">Calibracion</div>
+                    <div class="external-event bg-blue">Mantencion</div>
+                    <div class="external-event bg-red">Reparacion</div>
+                  </div>
+                </div>
             </div>
 
             <!--Seccion de creacion -->
-            <div class="box box-solid">
-              <div class="box-header with-border">
-                <h3 class="box-title">Crear</h3>
-              </div>
-              <div class="box-body">
-                <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                  <ul class="fc-color-picker" id="color-chooser">
-                    <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
-                  </ul>
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Crear</h3>
                 </div>
-                <div class="input-group">
-                  <input id="new-event" type="text" class="form-control" placeholder="Actividad">
-                  <div class="input-group-btn">
-                    <button id="add-new-event" type="button" class="btn btn-primary btn-flat"> + </button>
+                <div class="box-body">
+                  <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                    <ul class="fc-color-picker" id="color-chooser">
+                      <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+                      <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
+                      <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
+                    </ul>
+                  </div>
+                  <div class="input-group">
+                    <input id="new-event" type="text" class="form-control" placeholder="Actividad">
+                    <div class="input-group-btn">
+                      <button id="add-new-event" type="button" class="btn btn-primary btn-flat"> + </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
         </div>
-
 
         <!-- Calendario -->
           <div class="col-md-10">
@@ -316,7 +321,6 @@ eventClick:  function(event, jsEvent, view) {
             $("#description").text(event.title); //description
             $("#fecha_inicio").text(event.start);
             $("#fecha_fin").text(event.start);
-            $('#DANTEVILS').val(event.title);
             $("#myModal").modal();
 },
 
@@ -520,14 +524,13 @@ drop: function (date, allDay) { // this function is called when something is dro
     });
 
 
-  //Obtenemos el lugar donde se encuentre el panel de planificacion
+/*Obtenemos el lugar donde se encuentre el panel de planificacion*/
   var isEventOverDiv = function(x, y) {
     var external_events = $("#external-events");
     var offset = external_events.offset();
     offset.right = external_events.width() + offset.left;
     offset.bottom = external_events.height() + offset.top;
-
-    // Compare
+    // Comparador
     if (
       x >= offset.left &&
       y >= offset.top &&
@@ -538,16 +541,22 @@ drop: function (date, allDay) { // this function is called when something is dro
     }
     return false;
   }
-  //Convertido de Colores ID Google
-  var isColorGoogle = function(color){
-alert(color);
+
+/*Convertido de Colores ID Google*/
+  var isColorGoogle = function(color){  
   if (color == "rgb(221, 75, 57)" || color == "rgb(255, 0, 0)") return  11; //Reparacion - Rojo
   if (color == "rgb(0, 166, 90)")  return  10; //Calibracion - Verde
   if (color == "rgb(0, 115, 183)" || color == "rgb(60, 141, 188)" ) return 9;
   //if (color == "rgb(60, 141, 188)") return 9;  //Mantencion - azul
-  return 666; /*ID No definido*/
+  return 6060; /*ID No definido*/
   }
-
   });
+
+</script>
+
+<!--Mensajes de Alerta-->
+<script>
+$('#flash-overlay-modal').modal();
+$('div.alert').not('.alert-important').delay(1000).fadeOut(350);
 </script>
 @endsection
